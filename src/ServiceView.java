@@ -20,64 +20,82 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 
-public class ServiceView extends JFrame {
-
+public class ServiceView extends JFrame
+{
   private JPanel contentPane      = new JPanel();
   private JTable table            = new JTable();
   private JTextField textField    = new JTextField(10);
   private JScrollPane scrollPane  = new JScrollPane();
   private JPanel topPanel         = new JPanel(new FlowLayout(FlowLayout.LEFT));
-  private JButton btnNewButton    = new JButton("Search");
+  private JButton searchButton    = new JButton("Search");
 
-  public static void main(String[] args) {
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        try {
+  public static void main(String[] args)
+  {
+    EventQueue.invokeLater(new Runnable()
+    {
+      public void run()
+      {
+        try
+        {
           ServiceView frame = new ServiceView();
           frame.setVisible(true);
-        } catch (Exception e) {
+        }
+
+        catch (Exception e)
+        {
           e.printStackTrace();
         }
       }
     });
   }
 
-  public void SetTable() {
+  public void SetTable()
+  {
     table.setFont(new Font("Tahoma", Font.PLAIN, 12));
     table.setModel(new DefaultTableModel(
-        new Object[][] {
-            /*
-             * Sample data for testing
-             * remove this data and fetch data from the database
-             * when done with implementing the database connections
-             */
-            { 1, 1, "Screen", "Repair", 100.0 },
-            { 2, 1, "Battery", "Change", 88.98 }
-        },
-        new String[] {
-            "Service ID",
-            "Client ID",
-            "Part",
-            "Service Type",
-            "Cost"
-        }));
+      new Object[][]
+      {
+        /*
+          * Sample data for testing
+          * remove this data and fetch data from the database
+          * when done with implementing the database connections
+          */
+        { 1, 1, "Screen", "Repair", 100.0 },
+        { 2, 1, "Battery", "Change", 88.98 }
+      },
+
+      new String[]
+      {
+        "Service ID",
+        "Client ID",
+        "Part",
+        "Service Type",
+        "Cost"
+      }
+    ));
     scrollPane.setViewportView(table);
   }
 
-  public void SetServiceTableData(String searchQuery) {
+  public void SetServiceTableData(String searchQuery)
+  {
     String id = textField.getText().trim();
-    try {
+    try
+    {
       Class.forName("com.mysql.cj.jdbc.Driver");
       Connection databaseConnection = DriverManager.getConnection(
-          "jdbc:mysql://127.0.0.1:3306/cellphone",
-          "root",
-          "1234");
+        "jdbc:mysql://127.0.0.1:3306/cellphone",
+        "root",
+        "1234"
+      );
       PreparedStatement pst;
       DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-      if (id.isEmpty()) {
+      if (id.isEmpty())
+      {
         pst = databaseConnection.prepareStatement("SELECT * FROM service_t");
-      } else {
+      } 
+      else
+      {
         pst = databaseConnection.prepareStatement(searchQuery);
         pst.setString(1, id);
       }
@@ -85,22 +103,27 @@ public class ServiceView extends JFrame {
       ResultSet rs = pst.executeQuery();
       model.setRowCount(0);
 
-      while (rs.next()) {
-        model.addRow(new Object[] {
-            rs.getInt("Service_ID"),
-            rs.getInt("Client_ID"),
-            rs.getString("Part"),
-            rs.getString("Service_Type"),
-            rs.getDouble("Cost")
+      while (rs.next())
+      {
+        model.addRow(new Object[]
+        {
+          rs.getInt("Service_ID"),
+          rs.getInt("Client_ID"),
+          rs.getString("Part"),
+          rs.getString("Service_Type"),
+          rs.getDouble("Cost")
         });
       }
       table.setModel(model);
-    } catch (Exception e1) {
+    }
+    catch (Exception e1)
+    {
       e1.printStackTrace();
     }
   }
 
-  public ServiceView() {
+  public ServiceView()
+  {
     // Setups the frame
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setBounds(100, 100, 800, 361);
@@ -115,7 +138,6 @@ public class ServiceView extends JFrame {
     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     contentPane.add(scrollPane, BorderLayout.CENTER);
 
-    // Setups the table
     SetTable();
 
     // Setups the top panel
@@ -123,17 +145,19 @@ public class ServiceView extends JFrame {
     topPanel.add(textField);
 
     // Setups the search button
-    btnNewButton.setBackground(Color.lightGray);
-    btnNewButton.setForeground(Color.black);
-    btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+    searchButton.setBackground(Color.lightGray);
+    searchButton.setForeground(Color.black);
+    searchButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 
     // Setups the action listener for the search button
-    btnNewButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
+    searchButton.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
         String searchQuery = "SELECT * FROM service_t WHERE Service_ID = ?";
         SetServiceTableData(searchQuery);
       }
     });
-    topPanel.add(btnNewButton);
+    topPanel.add(searchButton);
   }
 }
