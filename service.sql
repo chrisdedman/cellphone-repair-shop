@@ -1,12 +1,13 @@
 -- SQL script to create a database for a cellphone repair service
-drop table cellphone.service_t;
-drop table cellphone.client_t;
+drop table cellphone.technician_device_t;
 drop table cellphone.device_t;
 drop table cellphone.technician_t;
+drop table cellphone.service_t;
+drop table cellphone.client_t;
 
 -- Create a client table
 CREATE TABLE `cellphone`.`client_t` (
-  `Client_ID` INT NOT NULL,
+  `Client_ID` INT NOT NULL AUTO_INCREMENT,
   `First_Name` VARCHAR(45) NULL,
   `Last_Name` VARCHAR(45) NULL,
   `Phone_Number` VARCHAR(45) NULL,
@@ -27,19 +28,30 @@ CREATE TABLE `cellphone`.`service_t` (
 
 -- Create a device table
 CREATE TABLE `cellphone`.`device_t` (
-  `Serial_Number` INT NOT NULL,
+  `Serial_Number` INT NOT NULL AUTO_INCREMENT,
+  `Service_ID` INT NOT NULL,
   `Device_Type` VARCHAR(45) NULL,
-  PRIMARY KEY (`Serial_Number`)
+  PRIMARY KEY (`Serial_Number`),
+  FOREIGN KEY (`Service_ID`) REFERENCES service_t(`Service_ID`)
 );
 
 -- Create a technician table with relationship to device table one to many
 CREATE TABLE `cellphone`.`technician_t` (
-  `Technician_ID` INT NOT NULL,
+  `Technician_ID` INT NOT NULL AUTO_INCREMENT,
   `First_Name` VARCHAR(45) NULL,
   `Last_Name` VARCHAR(45) NULL,
   `Phone_Number` VARCHAR(45) NULL,
   `Email` VARCHAR(45) NULL,
+  `Address` VARCHAR(45) NULL,
   PRIMARY KEY (`Technician_ID`)
+);
+
+CREATE TABLE `cellphone`.`technician_device_t` (
+  `Technician_ID` INT NOT NULL AUTO_INCREMENT,
+  `Serial_Number` INT NOT NULL,
+  PRIMARY KEY (`Technician_ID`, `Serial_Number`),
+  CONSTRAINT FOREIGN KEY (`Technician_ID`) REFERENCES technician_t(`Technician_ID`),
+  CONSTRAINT FOREIGN KEY (`Serial_Number`) REFERENCES device_t(`Serial_Number`)
 );
 
 -- Insert data into client table
@@ -56,15 +68,9 @@ INSERT INTO `cellphone`.`client_t` (`Client_ID`, `First_Name`, `Last_Name`, `Pho
 INSERT INTO `cellphone`.`client_t` (`Client_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`) VALUES ('11', 'James', 'Hernandez', '666-777-8888', 'jameshernandez@example.com');
 INSERT INTO `cellphone`.`client_t` (`Client_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`) VALUES ('12', 'Mia', 'Young', '333-444-5555', 'miayoung@example.com');
 
-
--- Insert data into device table
-INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Device_Type`) VALUES ('123456', 'iPhone');
-INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Device_Type`) VALUES ('123457', 'Samsung');
-INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Device_Type`) VALUES ('123458', 'Google Pixel');
-
 -- Insert data into technician table
-INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`) VALUES ('1', 'Anakin', 'Skywalker', '123-456-7890', 'anakin@sith.com');
-INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`) VALUES ('2', 'Obi-Wan', 'Kenobi', '123-456-7890', 'kenobi@jedi.com');
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`) VALUES ('1', 'Anakin', 'Skywalker', '123-456-7890', 'anakin@sith.com', '123 Sith Way');
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`) VALUES ('2', 'Obi-Wan', 'Kenobi', '123-456-7890', 'kenobi@jedi.com', '123 Jedi Way');
 
 -- Insert data into service table
 INSERT INTO `cellphone`.`service_t` (`Service_ID`, `Client_ID`, `Part`, `Service_Type`, `Cost`) VALUES ('1', '1', 'Screen', 'Repair', '100.00');
