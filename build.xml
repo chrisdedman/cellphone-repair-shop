@@ -1,0 +1,33 @@
+<project name="presentation" default="run" basedir=".">
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="main.class" value="src.ServiceView"/>
+    <property name="presentation.classpath" value="lib/mysql-connector-j-8.3.0.jar"/>
+
+    <path id="presentation.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/mysql-connector-j-8.3.0.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="init" depends="clean">
+        <mkdir dir="${build.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="*.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="${main.class}" classpath="${build.dir}:${lib.dir}/mysql-connector-j-8.3.0.jar" fork="true"/>
+    </target>
+
+</project>
