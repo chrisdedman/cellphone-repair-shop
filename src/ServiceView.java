@@ -154,7 +154,7 @@ public class ServiceView extends JFrame
     {
       public void actionPerformed(ActionEvent e)
       {
-        String searchQuery = "SELECT * FROM service_t WHERE Service_ID = ?";
+        String searchQuery = "SELECT * FROM service_t WHERE Client_ID = ?";
         SetServiceTableData(searchQuery);
       }
     });
