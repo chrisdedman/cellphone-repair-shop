@@ -49,31 +49,15 @@ public class ServiceView extends JFrame
     });
   }
 
-  public void SetTable()
-  {
+  public void SetTable() {
     table.setFont(new Font("Tahoma", Font.PLAIN, 12));
-    table.setModel(new DefaultTableModel(
-      new Object[][]
-      {
-        /*
-          * Sample data for testing
-          * remove this data and fetch data from the database
-          * when done with implementing the database connections
-          */
-        { 1, 1, "Screen", "Repair", 100.0 },
-        { 2, 1, "Battery", "Change", 88.98 }
-      },
+    DefaultTableModel model = new DefaultTableModel(
+        new String[] { "Service ID", "Client ID", "Part", "Service Type", "Cost" },
+        0);
 
-      new String[]
-      {
-        "Service ID",
-        "Client ID",
-        "Part",
-        "Service Type",
-        "Cost"
-      }
-    ));
+    table.setModel(model);
     scrollPane.setViewportView(table);
+    SetServiceTableData("");
   }
 
   public void SetServiceTableData(String searchQuery)
