@@ -99,7 +99,31 @@ INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Nam
 VALUES ('1', 'Anakin', 'Skywalker', '123-456-7890', 'anakin@sith.com', '123 Sith Way');
 
 INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
-VALUES ('2', 'Obi-Wan', 'Kenobi', '123-456-7890', 'kenobi@jedi.com', '123 Jedi Way');
+VALUES ('2', 'Obi-Wan', 'Kenobi', '123-456-7891', 'kenobi@jedi.com', '123 Jedi Way');
+
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
+VALUES ('3', 'Luke', 'Skywalker', '123-456-7892', 'lukeskywalker@jedi.com', '123 Jedi Way');
+
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
+VALUES ('4', 'Sakura', 'Haruno', '123-456-7893', 'harunosakura@konoha.com', '123 Konoha Way');
+
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
+VALUES ('5', 'Naruto', 'Uzumaki', '123-456-7894', 'uzumakinaruto@konoha.com', '123 Konoha Way');
+
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
+VALUES ('6', 'Dijkstra', 'Edsger', '123-456-7895', 'dijkstraedsger@algorithm.org', '123 Algorithm Way');
+
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
+VALUES ('7', 'Turing', 'Alan', '123-456-7896', 'turingalan@goat.com', '123 Goat Way');
+
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
+VALUES ('8', 'Hopper', 'Grace', '123-456-7888', 'gracehopper@hopper.com', '123 Hopper Way');
+
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
+VALUES ('9', 'Hamilton', 'Margaret', '123-456-7899', 'margaret@hamiltion.org', '123 Hamilton Way');
+
+INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
+VALUES ('10', 'Martin', 'Robert', '123-456-7877', 'martin@robert.com', '123 Robert Way');
 
 -- Insert data into service table
 INSERT INTO `cellphone`.`service_t` (`Service_ID`, `Client_ID`, `Part`, `Service_Type`, `Cost`)
@@ -190,19 +214,84 @@ INSERT INTO `cellphone`.`service_t` (`Service_ID`, `Client_ID`, `Part`, `Service
 VALUES ('29', '12', 'Headphone Jack', 'Repair', '50.00');
 
 -- Insert data into device table
-INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('1', '1', 'iPhone 11');
-INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('2', '2', 'Samsung Galaxy S10');
-INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('3', '3', 'iPhone 11');
-INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('4', '4', 'Samsung Galaxy S10');
-INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('5', '5', 'iPhone 15 Pro');
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('1', '1', 'iPhone 11');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('2', '2', 'Xiaomi Mi 10');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('3', '3', 'Blackberry Key2');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('4', '4', 'Samsung Galaxy S10');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('5', '5', 'iPhone 15 Pro');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('6', '6', 'Google Pixel 4');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('7', '7', 'iPhone X');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('8', '8', 'LG G8 ThinQ');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('9', '9', 'OnePlus 8 Pro');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('10', '10', 'Samsung Galaxy Note 10');
 
 -- Insert data into technician_device table
-INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '1');
-INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '2');
-INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '3');
-INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '4');
-INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '5');
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('1', '1');
 
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('2', '2');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('3', '3');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('4', '4');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('5', '5');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('6', '1');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('7', '2');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('8', '3');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('9', '4');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('10', '5');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('10', '1');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('9', '2');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('8', '1');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('7', '4');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('6', '5');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('5', '6');
 
 -- Demo queries
 SELECT * FROM service_t WHERE Client_ID = 11;
