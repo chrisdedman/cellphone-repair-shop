@@ -447,3 +447,9 @@ SELECT client_t.first_name, client_t.last_name, device_t.device_type
       JOIN device_t ON device_t.service_id = service_t.service_id
         GROUP BY client_t.first_name, client_t.last_name, device_t.device_type
 	        ORDER BY client_t.first_name;
+
+SELECT client_t.first_name, client_t.last_name, SUM(service_t.cost) as total_cost
+  FROM service_t
+    JOIN client_t ON client_t.client_id = service_t.client_id
+      GROUP BY client_t.first_name, client_t.last_name
+        ORDER BY total_cost DESC;
