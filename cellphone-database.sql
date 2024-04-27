@@ -244,6 +244,63 @@ VALUES ('9', '9', 'OnePlus 8 Pro');
 INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
 VALUES ('10', '10', 'Samsung Galaxy Note 10');
 
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('11', '11', 'iPhone 12');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('12', '12', 'Samsung Galaxy S20');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('13', '13', 'Google Pixel 5');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('14', '14', 'OnePlus 8T');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('15', '15', 'Samsung Galaxy S21');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('16', '16', 'iPhone 13');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('17', '17', 'Samsung Galaxy S22');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('18', '18', 'Google Pixel 6');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('19', '19', 'OnePlus 9');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('20', '20', 'Samsung Galaxy S23');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('21', '21', 'iPhone 14');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('22', '22', 'Samsung Galaxy S24');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('23', '23', 'Google Pixel 7');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('24', '24', 'OnePlus 10');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('25', '25', 'Samsung Galaxy S25');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('26', '26', 'iPhone 15');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('27', '27', 'Samsung Galaxy S26');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('28', '28', 'Google Pixel 8');
+
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`)
+VALUES ('29', '29', 'OnePlus 11');
+
 -- Insert data into technician_device table
 INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
 VALUES ('1', '1');
@@ -293,6 +350,30 @@ VALUES ('6', '5');
 INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
 VALUES ('5', '6');
 
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('4', '7');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('3', '8');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('2', '9');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('1', '10');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('1', '11');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('2', '12');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('3', '13');
+
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`)
+VALUES ('4', '14');
+
 -- Demo queries
 SELECT * FROM service_t WHERE Client_ID = 11;
 SELECT * FROM client_t WHERE Client_ID = 8;
@@ -338,20 +419,31 @@ SELECT device_t.device_type, service_t.service_type, service_t.cost
         GROUP BY device_t.device_type, service_t.service_type, service_t.cost
           ORDER BY device_t.device_type, service_t.service_type, service_t.cost;
 
-SELECT device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name
-  FROM cellphone.device_t
-    JOIN cellphone.service_t ON device_t.service_id = service_t.service_id
-      JOIN cellphone.technician_device_t ON device_t.serial_number = technician_device_t.serial_number
-        JOIN cellphone.technician_t ON technician_device_t.technician_id = technician_t.technician_id
-          WHERE service_t.cost > 100
-            GROUP BY device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name
-              ORDER BY device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name;
-
 SELECT device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name as technician_first_name, technician_t.last_name as technician_last_name
   FROM cellphone.device_t
     JOIN cellphone.service_t ON device_t.service_id = service_t.service_id
       JOIN cellphone.technician_device_t ON device_t.serial_number = technician_device_t.serial_number
         JOIN cellphone.technician_t ON technician_device_t.technician_id = technician_t.technician_id
-          WHERE service_t.cost > 100
+          WHERE service_t.cost < 100
             GROUP BY device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name
               ORDER BY device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name;
+
+SELECT technician_t.first_name, technician_t.last_name, COUNT(technician_device_t.serial_number) as device_count
+  FROM cellphone.technician_t
+    JOIN cellphone.technician_device_t ON technician_t.technician_id = technician_device_t.technician_id
+      GROUP BY technician_t.first_name, technician_t.last_name
+        ORDER BY technician_t.first_name DESC, technician_t.last_name;
+
+SELECT device_t.device_type, COUNT(device_t.device_type) as device_count
+  FROM cellphone.device_t
+    JOIN cellphone.service_t ON device_t.service_id = service_t.service_id
+      JOIN technician_device_t ON device_t.serial_number = technician_device_t.serial_number
+        GROUP BY device_t.device_type
+          ORDER BY device_t.device_type;
+
+SELECT client_t.first_name, client_t.last_name, device_t.device_type
+  FROM client_t
+    JOIN service_t ON service_t.client_id = client_t.client_id
+      JOIN device_t ON device_t.service_id = service_t.service_id
+        GROUP BY client_t.first_name, client_t.last_name, device_t.device_type
+	        ORDER BY client_t.first_name;
