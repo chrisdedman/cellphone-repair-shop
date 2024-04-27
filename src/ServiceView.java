@@ -174,4 +174,9 @@ public class ServiceView extends JFrame
 
     topPanel.add(searchButton);
   }
+
+  public JPanel getContentPane()
+  {
+    return contentPane;
+  }
 }
