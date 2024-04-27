@@ -18,3 +18,8 @@ Our cellphone repair shop database maintains records of clients using a Client I
 
 ## ER Diagram
 ![ER Diagram](/assets/ERD.png)
+
+## DEMO
+![FULL DATABASE](/assets/full_database.png)
+![DATA CLIENT_ID 11](/assets/data_11.png)
+![DATA CLIENT_ID 3](/assets/data_3.png)
