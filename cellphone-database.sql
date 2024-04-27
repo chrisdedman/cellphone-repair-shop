@@ -111,19 +111,19 @@ INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Nam
 VALUES ('5', 'Naruto', 'Uzumaki', '123-456-7894', 'uzumakinaruto@konoha.com', '123 Konoha Way');
 
 INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
-VALUES ('6', 'Dijkstra', 'Edsger', '123-456-7895', 'dijkstraedsger@algorithm.org', '123 Algorithm Way');
+VALUES ('6', 'Edsger', 'Dijkstra', '123-456-7895', 'dijkstraedsger@algorithm.org', '123 Algorithm Way');
 
 INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
-VALUES ('7', 'Turing', 'Alan', '123-456-7896', 'turingalan@goat.com', '123 Goat Way');
+VALUES ('7', 'Alan', 'Turing', '123-456-7896', 'turingalan@goat.com', '123 Goat Way');
 
 INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
-VALUES ('8', 'Hopper', 'Grace', '123-456-7888', 'gracehopper@hopper.com', '123 Hopper Way');
+VALUES ('8', 'Grace', 'Hopper', '123-456-7888', 'gracehopper@hopper.com', '123 Hopper Way');
 
 INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
-VALUES ('9', 'Hamilton', 'Margaret', '123-456-7899', 'margaret@hamiltion.org', '123 Hamilton Way');
+VALUES ('9', 'Margaret', 'Hamilton', '123-456-7899', 'margaret@hamiltion.org', '123 Hamilton Way');
 
 INSERT INTO `cellphone`.`technician_t` (`Technician_ID`, `First_Name`, `Last_Name`, `Phone_Number`, `Email`, `Address`)
-VALUES ('10', 'Martin', 'Robert', '123-456-7877', 'martin@robert.com', '123 Robert Way');
+VALUES ('10', 'Robert', 'Martin', '123-456-7877', 'martin@robert.com', '123 Robert Way');
 
 -- Insert data into service table
 INSERT INTO `cellphone`.`service_t` (`Service_ID`, `Client_ID`, `Part`, `Service_Type`, `Cost`)
@@ -330,3 +330,28 @@ SELECT technician_t.first_name, technician_t.last_name, device_t.device_type
       JOIN cellphone.device_t ON technician_device_t.serial_number = device_t.serial_number
         GROUP BY technician_t.first_name, technician_t.last_name, device_t.device_type
           ORDER BY technician_t.first_name, technician_t.last_name, device_t.device_type;
+
+SELECT device_t.device_type, service_t.service_type, service_t.cost
+  FROM cellphone.device_t
+    JOIN cellphone.service_t ON device_t.service_id = service_t.service_id
+      WHERE service_t.cost > 100
+        GROUP BY device_t.device_type, service_t.service_type, service_t.cost
+          ORDER BY device_t.device_type, service_t.service_type, service_t.cost;
+
+SELECT device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name
+  FROM cellphone.device_t
+    JOIN cellphone.service_t ON device_t.service_id = service_t.service_id
+      JOIN cellphone.technician_device_t ON device_t.serial_number = technician_device_t.serial_number
+        JOIN cellphone.technician_t ON technician_device_t.technician_id = technician_t.technician_id
+          WHERE service_t.cost > 100
+            GROUP BY device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name
+              ORDER BY device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name;
+
+SELECT device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name as technician_first_name, technician_t.last_name as technician_last_name
+  FROM cellphone.device_t
+    JOIN cellphone.service_t ON device_t.service_id = service_t.service_id
+      JOIN cellphone.technician_device_t ON device_t.serial_number = technician_device_t.serial_number
+        JOIN cellphone.technician_t ON technician_device_t.technician_id = technician_t.technician_id
+          WHERE service_t.cost > 100
+            GROUP BY device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name
+              ORDER BY device_t.device_type, service_t.service_type, service_t.cost, technician_t.first_name, technician_t.last_name;
