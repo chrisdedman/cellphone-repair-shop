@@ -37,35 +37,6 @@ public class ServiceView extends JFrame
 
   private static Connection databaseConnection;
 
-  public static void main(String[] args)
-  {
-    EventQueue.invokeLater(new Runnable()
-    {
-      public void run()
-      {
-        try
-        {
-          runSQLScript("schema/init_database.sql");
-          runSQLScript("schema/create_tables.sql");
-          runSQLScript("schema/data/client_data.sql");
-          runSQLScript("schema/data/technician_data.sql");
-          runSQLScript("schema/data/service_data.sql");
-          runSQLScript("schema/data/device_data.sql");
-          runSQLScript("schema/data/technician_device_data.sql");
-
-          ServiceView frame = new ServiceView();
-          frame.setVisible(true);
-
-        }
-        
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-      }
-    });
-  }
-
   public static void runSQLScript(String fileName)
   {
     try

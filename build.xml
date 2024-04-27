@@ -2,7 +2,7 @@
     <property name="src.dir" value="src"/>
     <property name="build.dir" value="build"/>
     <property name="lib.dir" value="lib"/>
-    <property name="main.class" value="src.ServiceView"/>
+    <property name="main.class" value="src.Main"/>
     <property name="presentation.classpath" value="lib/mysql-connector-j-8.3.0.jar"/>
 
     <path id="presentation.classpath">
