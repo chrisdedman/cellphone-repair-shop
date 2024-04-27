@@ -376,6 +376,7 @@ VALUES ('4', '14');
 
 -- Demo queries
 SELECT * FROM service_t WHERE Client_ID = 11;
+
 SELECT * FROM client_t WHERE Client_ID = 8;
 
 SELECT client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost
