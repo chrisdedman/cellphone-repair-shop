@@ -5,6 +5,9 @@ DROP TABLE IF EXISTS cellphone.technician_t;
 DROP TABLE IF EXISTS cellphone.service_t;
 DROP TABLE IF EXISTS cellphone.client_t;
 
+-- Create a database
+CREATE DATABASE IF NOT EXISTS cellphone;
+
 -- Create a client table
 CREATE TABLE `cellphone`.`client_t` (
   `Client_ID` INT NOT NULL AUTO_INCREMENT,
@@ -185,3 +188,56 @@ VALUES ('28', '11', 'Charging Port', 'Replace', '30.00');
 
 INSERT INTO `cellphone`.`service_t` (`Service_ID`, `Client_ID`, `Part`, `Service_Type`, `Cost`)
 VALUES ('29', '12', 'Headphone Jack', 'Repair', '50.00');
+
+-- Insert data into device table
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('1', '1', 'iPhone 11');
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('2', '2', 'Samsung Galaxy S10');
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('3', '3', 'iPhone 11');
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('4', '4', 'Samsung Galaxy S10');
+INSERT INTO `cellphone`.`device_t` (`Serial_Number`, `Service_ID`, `Device_Type`) VALUES ('5', '5', 'iPhone 15 Pro');
+
+-- Insert data into technician_device table
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '1');
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '2');
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '3');
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '4');
+INSERT INTO `cellphone`.`technician_device_t` (`Technician_ID`, `Serial_Number`) VALUES ('1', '5');
+
+
+-- Demo queries
+SELECT * FROM service_t WHERE Client_ID = 11;
+SELECT * FROM client_t WHERE Client_ID = 8;
+
+SELECT client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost
+  FROM cellphone.client_t
+    JOIN cellphone.service_t ON client_t.client_id = service_t.client_id
+      GROUP BY client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost
+        ORDER BY client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost;
+
+SELECT client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost
+  FROM cellphone.client_t
+    JOIN cellphone.service_t ON client_t.client_id = service_t.client_id
+      WHERE service_t.cost > 100
+        GROUP BY client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost
+          ORDER BY client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost;
+
+SELECT client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost
+  FROM cellphone.client_t
+    JOIN cellphone.service_t ON client_t.client_id = service_t.client_id
+      WHERE service_t.cost < 100
+        GROUP BY client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost
+          ORDER BY client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost;
+
+SELECT client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost
+  FROM cellphone.client_t
+    JOIN cellphone.service_t ON client_t.client_id = service_t.client_id
+      WHERE service_t.service_type = 'Repair'
+        GROUP BY client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost
+          ORDER BY client_t.first_name, client_t.last_name, service_t.service_type, service_t.cost;
+
+SELECT technician_t.first_name, technician_t.last_name, device_t.device_type
+  FROM cellphone.technician_t
+    JOIN cellphone.technician_device_t ON technician_t.technician_id = technician_device_t.technician_id
+      JOIN cellphone.device_t ON technician_device_t.serial_number = device_t.serial_number
+        GROUP BY technician_t.first_name, technician_t.last_name, device_t.device_type
+          ORDER BY technician_t.first_name, technician_t.last_name, device_t.device_type;
