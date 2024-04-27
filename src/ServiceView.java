@@ -52,7 +52,13 @@ public class ServiceView extends JFrame
   public void SetTable() {
     table.setFont(new Font("Tahoma", Font.PLAIN, 12));
     DefaultTableModel model = new DefaultTableModel(
-        new String[] { "Service ID", "Client ID", "Part", "Service Type", "Cost" },
+        new String[] {
+          "Service ID",
+          "Client ID",
+          "Part",
+          "Service Type",
+          "Cost"
+        },
         0);
 
     table.setModel(model);
@@ -71,6 +77,7 @@ public class ServiceView extends JFrame
         "root",
         "1234"
       );
+
       PreparedStatement pst;
       DefaultTableModel model = (DefaultTableModel) table.getModel();
 
