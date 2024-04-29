@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.table.TableColumn;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -83,6 +83,8 @@ public class ServiceView extends JFrame
       new String[] {
           "Service ID",
           "Client ID",
+          "First Name",
+          "Last Name",
           "Part",
           "Service Type",
           "Cost"
@@ -92,25 +94,25 @@ public class ServiceView extends JFrame
 
     table.setModel(model);
     scrollPane.setViewportView(table);
-    setServiceTableData("");
   }
 
   public void setServiceTableData(String searchQuery)
   {
-    String id = textField.getText().trim();
+    String inputField = textField.getText().trim();
     try
     {
       PreparedStatement pst;
       DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-      if (id.isEmpty())
+      if (inputField.isEmpty())
       {
-        pst = databaseConnection.prepareStatement("SELECT * FROM service_t");
+        pst = databaseConnection.prepareStatement("SELECT * FROM service_t JOIN client_t ON service_t.Client_ID = client_t.Client_ID ORDER BY Service_ID");
       }
       else
       {
         pst = databaseConnection.prepareStatement(searchQuery);
-        pst.setString(1, id);
+        pst.setString(1, "%" + inputField + "%");
+        pst.setString(2, "%" + inputField + "%");
       }
 
       ResultSet rs = pst.executeQuery();
@@ -122,9 +124,11 @@ public class ServiceView extends JFrame
         {
           rs.getInt("Service_ID"),
           rs.getInt("Client_ID"),
+          rs.getString("First_name"),
+          rs.getString("Last_name"),
           rs.getString("Part"),
           rs.getString("Service_Type"),
-          rs.getDouble("Cost")
+          "$" + rs.getDouble("Cost")
         });
       }
       table.setModel(model);
@@ -137,21 +141,20 @@ public class ServiceView extends JFrame
 
   public ServiceView()
   {
-    // Setups the frame
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setBounds(100, 100, 800, 361);
-    setTitle("Cell Phone Repair Shop Database");
-
     // Setups the content pane
     contentPane.setBackground(new Color(240, 240, 240));
     setContentPane(contentPane);
+    
     contentPane.setLayout(new BorderLayout());
 
     // Setups the scroll pane
     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     contentPane.add(scrollPane, BorderLayout.CENTER);
 
+    // Setups the table
     setTable();
+    setServiceTableData("");
+    setColumnsWidth(table, 800, 50, 50, 70, 80, 100, 80, 60);
 
     // Setups the top panel
     contentPane.add(topPanel, BorderLayout.NORTH);
@@ -167,12 +170,27 @@ public class ServiceView extends JFrame
     {
       public void actionPerformed(ActionEvent e)
       {
-        String searchQuery = "SELECT * FROM service_t WHERE Client_ID = ?";
+        String searchQuery = "SELECT * FROM service_t JOIN client_t ON service_t.Client_ID = client_t.Client_ID WHERE (client_t.First_Name LIKE ? OR client_t.Last_Name LIKE ?)";
         setServiceTableData(searchQuery);
       }
     });
 
     topPanel.add(searchButton);
+  }
+
+  public static void setColumnsWidth(JTable table, int tablePreferredWidth, double... percentages)
+  {
+    double total = 0;
+    for (int i = 0; i < table.getColumnModel().getColumnCount(); i++)
+    {
+      total += percentages[i];
+    }
+
+    for (int i = 0; i < table.getColumnModel().getColumnCount(); i++)
+    {
+      TableColumn column = table.getColumnModel().getColumn(i);
+      column.setPreferredWidth((int) (tablePreferredWidth * (percentages[i] / total)));
+    }
   }
 
   public JPanel getContentPane()
