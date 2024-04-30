@@ -111,8 +111,8 @@ public class ServiceView extends JFrame
       else
       {
         pst = databaseConnection.prepareStatement(searchQuery);
-        pst.setString(1, "%" + inputField + "%");
-        pst.setString(2, "%" + inputField + "%");
+        pst.setString(1, inputField + "%");
+        pst.setString(2, inputField + "%");
       }
 
       ResultSet rs = pst.executeQuery();
