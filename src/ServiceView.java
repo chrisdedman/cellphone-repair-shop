@@ -106,7 +106,12 @@ public class ServiceView extends JFrame
 
       if (inputField.isEmpty())
       {
-        pst = databaseConnection.prepareStatement("SELECT * FROM service_t JOIN client_t ON service_t.Client_ID = client_t.Client_ID ORDER BY Service_ID");
+        pst = databaseConnection.prepareStatement(
+          "SELECT * FROM service_t " +
+              "JOIN client_t " +
+              "ON service_t.Client_ID = client_t.Client_ID " +
+              "ORDER BY Service_ID"
+        );
       }
       else
       {
@@ -170,7 +175,11 @@ public class ServiceView extends JFrame
     {
       public void actionPerformed(ActionEvent e)
       {
-        String searchQuery = "SELECT * FROM service_t JOIN client_t ON service_t.Client_ID = client_t.Client_ID WHERE (client_t.First_Name LIKE ? OR client_t.Last_Name LIKE ?)";
+        String searchQuery = ("SELECT * FROM service_t " +
+            "JOIN client_t " +
+            "ON service_t.Client_ID = client_t.Client_ID " +
+            "WHERE (client_t.First_Name LIKE ? " +
+            "OR client_t.Last_Name LIKE ?)");
         setServiceTableData(searchQuery);
       }
     });
