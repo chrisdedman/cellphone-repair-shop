@@ -1,7 +1,6 @@
 package src;
 
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,6 +8,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.TableColumn;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -33,7 +34,6 @@ public class ServiceView extends JFrame
   private JTextField textField   = new JTextField(10);
   private JScrollPane scrollPane = new JScrollPane();
   private JPanel topPanel        = new JPanel(new FlowLayout(FlowLayout.LEFT));
-  private JButton searchButton   = new JButton("Search");
 
   private static Connection databaseConnection;
 
@@ -160,22 +160,33 @@ public class ServiceView extends JFrame
     contentPane.add(topPanel, BorderLayout.NORTH);
     topPanel.add(textField);
 
-    // Setups the search button
-    searchButton.setBackground(Color.lightGray);
-    searchButton.setForeground(Color.black);
-    searchButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-
-    // Setups the action listener for the search button
-    searchButton.addActionListener(new ActionListener()
+    // Setups the search field
+    textField.getDocument().addDocumentListener(new DocumentListener()
     {
-      public void actionPerformed(ActionEvent e)
+      @Override
+      public void insertUpdate(DocumentEvent e)
       {
-        String searchQuery = "SELECT * FROM service_t JOIN client_t ON service_t.Client_ID = client_t.Client_ID WHERE (client_t.First_Name LIKE ? OR client_t.Last_Name LIKE ?)";
-        setServiceTableData(searchQuery);
+        updateTable();
+      }
+
+      @Override
+      public void removeUpdate(DocumentEvent e)
+      {
+        updateTable();
+      }
+
+      @Override
+      public void changedUpdate(DocumentEvent e)
+      {
+        updateTable();
       }
     });
+  }
 
-    topPanel.add(searchButton);
+  private void updateTable()
+  {
+    String searchQuery = "SELECT * FROM service_t JOIN client_t ON service_t.Client_ID = client_t.Client_ID WHERE (client_t.First_Name LIKE ? OR client_t.Last_Name LIKE ?)";
+    setServiceTableData(searchQuery);
   }
 
   public static void setColumnsWidth(JTable table, int tablePreferredWidth, double... percentages)
