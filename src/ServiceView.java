@@ -106,7 +106,12 @@ public class ServiceView extends JFrame
 
       if (inputField.isEmpty())
       {
-        pst = databaseConnection.prepareStatement("SELECT * FROM service_t JOIN client_t ON service_t.Client_ID = client_t.Client_ID ORDER BY Service_ID");
+        pst = databaseConnection.prepareStatement(
+          "SELECT * FROM service_t " +
+              "JOIN client_t " +
+              "ON service_t.Client_ID = client_t.Client_ID " +
+              "ORDER BY Service_ID"
+        );
       }
       else
       {
