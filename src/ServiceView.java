@@ -4,19 +4,20 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.TableColumn;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.ImageIcon;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Image;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,9 +32,10 @@ public class ServiceView extends JFrame
 {
   private JPanel contentPane     = new JPanel();
   private JTable table           = new JTable();
-  private JTextField textField   = new JTextField(10);
+  private JTextField searchField = new JTextField(10);
   private JScrollPane scrollPane = new JScrollPane();
   private JPanel topPanel        = new JPanel(new FlowLayout(FlowLayout.LEFT));
+  private JLabel searchIconLabel;
 
   private static Connection databaseConnection;
 
@@ -98,7 +100,7 @@ public class ServiceView extends JFrame
 
   public void setServiceTableData(String searchQuery)
   {
-    String inputField = textField.getText().trim();
+    String inputField = searchField.getText().trim();
     try
     {
       PreparedStatement pst;
@@ -161,12 +163,21 @@ public class ServiceView extends JFrame
     setServiceTableData("");
     setColumnsWidth(table, 800, 50, 50, 70, 80, 100, 80, 60);
 
+    // Add search icon
+    ImageIcon searchIcon = new ImageIcon("assets/search-icon.png");
+    Image icon           = searchIcon.getImage();
+    Image newIcon        = icon.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
+    searchIcon           = new ImageIcon(newIcon);
+    searchIconLabel      = new JLabel(searchIcon);
+
     // Setups the top panel
     contentPane.add(topPanel, BorderLayout.NORTH);
-    topPanel.add(textField);
+    topPanel.add(searchIconLabel);
+    topPanel.add(new JLabel("Search by Client's Name:"));
+    topPanel.add(searchField);
 
     // Setups the search field
-    textField.getDocument().addDocumentListener(new DocumentListener()
+    searchField.getDocument().addDocumentListener(new DocumentListener()
     {
       @Override
       public void insertUpdate(DocumentEvent e)
