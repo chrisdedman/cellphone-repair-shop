@@ -1,32 +1,32 @@
 package src;
 
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;
 import javax.swing.event.DocumentEvent;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.DocumentListener;
-import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.BufferedReader;
 
 public class ServiceView extends JFrame
 {
