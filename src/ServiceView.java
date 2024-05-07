@@ -194,7 +194,8 @@ public class ServiceView extends JFrame
             "JOIN client_t " +
             "ON service_t.Client_ID = client_t.Client_ID " +
             "WHERE (client_t.First_Name LIKE ? " +
-            "OR client_t.Last_Name LIKE ?)");
+            "OR client_t.Last_Name LIKE ?)"
+      );
     setServiceTableData(searchQuery);
   }
 
