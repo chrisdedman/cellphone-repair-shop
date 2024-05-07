@@ -1,39 +1,41 @@
 package src;
 
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;
+import javax.swing.event.DocumentEvent;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
 
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.BufferedReader;
 
 public class ServiceView extends JFrame
 {
   private JPanel contentPane     = new JPanel();
   private JTable table           = new JTable();
-  private JTextField textField   = new JTextField(10);
+  private JTextField searchField = new JTextField(10);
   private JScrollPane scrollPane = new JScrollPane();
   private JPanel topPanel        = new JPanel(new FlowLayout(FlowLayout.LEFT));
-  private JButton searchButton   = new JButton("Search");
+  private JLabel searchIconLabel;
 
   private static Connection databaseConnection;
 
@@ -98,7 +100,7 @@ public class ServiceView extends JFrame
 
   public void setServiceTableData(String searchQuery)
   {
-    String inputField = textField.getText().trim();
+    String inputField = searchField.getText().trim();
     try
     {
       PreparedStatement pst;
@@ -161,30 +163,51 @@ public class ServiceView extends JFrame
     setServiceTableData("");
     setColumnsWidth(table, 800, 50, 50, 70, 80, 100, 80, 60);
 
+    // Add search icon
+    ImageIcon searchIcon = new ImageIcon("assets/search-icon.png");
+    Image icon           = searchIcon.getImage();
+    Image newIcon        = icon.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
+    searchIcon           = new ImageIcon(newIcon);
+    searchIconLabel      = new JLabel(searchIcon);
+
     // Setups the top panel
     contentPane.add(topPanel, BorderLayout.NORTH);
-    topPanel.add(textField);
+    topPanel.add(searchIconLabel);
+    topPanel.add(new JLabel("Search by Client's Name:"));
+    topPanel.add(searchField);
 
-    // Setups the search button
-    searchButton.setBackground(Color.lightGray);
-    searchButton.setForeground(Color.black);
-    searchButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-
-    // Setups the action listener for the search button
-    searchButton.addActionListener(new ActionListener()
+    // Setups the search field
+    searchField.getDocument().addDocumentListener(new DocumentListener()
     {
-      public void actionPerformed(ActionEvent e)
+      @Override
+      public void insertUpdate(DocumentEvent e)
       {
-        String searchQuery = ("SELECT * FROM service_t " +
+        updateTable();
+      }
+
+      @Override
+      public void removeUpdate(DocumentEvent e)
+      {
+        updateTable();
+      }
+
+      @Override
+      public void changedUpdate(DocumentEvent e)
+      {
+        updateTable();
+      }
+    });
+  }
+
+  private void updateTable()
+  {
+    String searchQuery = ("SELECT * FROM service_t " +
             "JOIN client_t " +
             "ON service_t.Client_ID = client_t.Client_ID " +
             "WHERE (client_t.First_Name LIKE ? " +
-            "OR client_t.Last_Name LIKE ?)");
-        setServiceTableData(searchQuery);
-      }
-    });
-
-    topPanel.add(searchButton);
+            "OR client_t.Last_Name LIKE ?)"
+      );
+    setServiceTableData(searchQuery);
   }
 
   public static void setColumnsWidth(JTable table, int tablePreferredWidth, double... percentages)
